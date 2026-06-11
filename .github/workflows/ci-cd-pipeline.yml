@@ -94,7 +94,7 @@ jobs:
         run: |
             pwd
             ls -l
-            cd /bakehouse-app
+            cd bakehouse-app
             ./install.sh
 
   test:
@@ -103,7 +103,7 @@ jobs:
     steps:
       - name: run 
         run: |
-            cd /bakehouse-app/test/unit-testing
+            cd bakehouse-app/test/unit-testing
             npm test
 
   deploy:
@@ -113,10 +113,10 @@ jobs:
     steps:
       - name: synth
         run: |
-            cd /bakehouse-app
+            cd bakehouse-app
             npx cdk synth
 
       - name: deploy
         run: |
-            cd /bakehouse-app
+            cd bakehouse-app
             npx cdk deploy
