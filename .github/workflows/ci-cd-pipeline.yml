@@ -92,6 +92,8 @@ jobs:
 
       - name: Run install script
         run: |
+            pwd
+            ls -l
             cd /bakehouse-app
             ./install.sh
 
