@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Environment setup
+    name: Environment setup & Deployment
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
           # Session name now includes:
           # gha-cdk-{student}-{run_id}-{attempt}
           # Example: gha-cdk-alice-1234567890-1
-          role-session-name: ${{ needs.setup.outputs.session-name }}
+          role-session-name: ${{ steps.session-naming.outputs.session-name }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Verify OIDC credentials
@@ -99,12 +99,12 @@ jobs:
       - name: synth
         run: |
             cd bakehouse-app
-            npx cdk synth
+            npx cdk synth --verbose
 
       - name: deploy
         run: |
             cd bakehouse-app
-            npx cdk deploy
+            npx cdk deploy --verbose
 
   test:
     runs-on: ubuntu-latest
