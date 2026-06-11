@@ -115,7 +115,7 @@ jobs:
           AWS_REGION: eu-west-2
         run: |
           cd bakehouse-app
-          npx cdk deploy --profile student --verbose
+          npx cdk deploy --verbose
 
   test:
     runs-on: ubuntu-latest
