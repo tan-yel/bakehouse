@@ -109,7 +109,7 @@ jobs:
           cd bakehouse-app/test/unit-testing
           pwd
           npm install
-          npm test
+          npm test unit-testing
 
 
   deploy:
@@ -123,9 +123,11 @@ jobs:
       - name: synth
         run: |
             cd bakehouse-app
+            npm i
             npx cdk synth
 
       - name: deploy
         run: |
             cd bakehouse-app
+            npm i
             npx cdk deploy
