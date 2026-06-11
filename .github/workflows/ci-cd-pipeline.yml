@@ -90,10 +90,19 @@ jobs:
           ROLE_SESSION=$(echo "${IDENTITY}" | jq -r '.Arn' | grep -oP '(?<=/)[^/]+$')
           echo "Current session: ${ROLE_SESSION}"
 
+      - name: synth
+        run: |
+            cd bakehouse-app
+            npx cdk synth
+
+      - name: deploy
+        run: |
+            cd bakehouse-app
+            npx cdk deploy
+
   test:
     runs-on: ubuntu-latest
     name: Unit testing
-    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -111,29 +120,3 @@ jobs:
           npm install
           npm test unit-testing
 
-
-  deploy:
-    runs-on: ubuntu-latest
-    name: Synth and Deploy
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run install script
-        run: |
-          cd bakehouse-app
-          ./install.sh
-          echo '✅'
-        
-      - name: synth
-        run: |
-            cd bakehouse-app
-            npm i
-            npx cdk synth
-
-      - name: deploy
-        run: |
-            cd bakehouse-app
-            npm i
-            npx cdk deploy
