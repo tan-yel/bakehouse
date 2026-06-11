@@ -10,7 +10,7 @@ permissions:
 
 env:
   AWS_REGION: eu-west-2
-  S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+  BAKEHOUSE_STACK_NAME: ${{ secrets.BAKEHOUSE_STACK_NAME }}
   AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
