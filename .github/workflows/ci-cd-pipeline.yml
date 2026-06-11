@@ -90,12 +90,6 @@ jobs:
           ROLE_SESSION=$(echo "${IDENTITY}" | jq -r '.Arn' | grep -oP '(?<=/)[^/]+$')
           echo "Current session: ${ROLE_SESSION}"
 
-      - name: Run install script
-        run: |
-          cd bakehouse-app
-          ./install.sh
-          echo '✅'
-
   test:
     runs-on: ubuntu-latest
     name: Unit testing
@@ -103,6 +97,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Run install script
+        run: |
+          cd bakehouse-app
+          ./install.sh
+          echo '✅'
 
       - name: run unit test
         run: |
@@ -119,6 +119,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Run install script
+        run: |
+          cd bakehouse-app
+          ./install.sh
+          echo '✅'
         
       - name: synth
         run: |
