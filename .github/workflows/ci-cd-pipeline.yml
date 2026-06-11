@@ -104,23 +104,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: run 
+      - name: run unit test
         run: |
-          echo 'cd command'
-          ls -l
-          cd bakehouse-app/
-          echo 'pwd'
+          cd bakehouse-app/test/unit-testing
           pwd
-          echo 'ls'
-          ls
-          echo 'cd test'
-          cd test/
-
-          pwd
-          ls
-          cd unit-testing/
-          pwd
+          npm install
           npm test
+
 
   deploy:
     runs-on: ubuntu-latest
