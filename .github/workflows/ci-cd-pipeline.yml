@@ -96,17 +96,26 @@ jobs:
           ./install.sh
           echo '✅'
 
-      - name: Set CDK environment
+      - name: Debug AWS env for CDK
         run: |
-          ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
-          echo "CDK_DEFAULT_ACCOUNT=$ACCOUNT" >> $GITHUB_ENV
-          echo "CDK_DEFAULT_REGION=eu-west-2" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+          echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+          echo "AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
 
-      - name: synth and deploy
+      - name: synth
         run: |
-            cd bakehouse-app
-            npx cdk synth 
-            npx cdk deploy --profile student
+          cd bakehouse-app
+          npx cdk synth
+
+      - name: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}
+          AWS_REGION: eu-west-2
+        run: |
+          cd bakehouse-app
+          npx cdk deploy --profile student --verbose
 
   test:
     runs-on: ubuntu-latest
