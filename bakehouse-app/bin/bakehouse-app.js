@@ -3,15 +3,20 @@ import { BakehouseStack } from '../lib/bakehouse-stack.js';
 import * as cdk from 'aws-cdk-lib';
 
 const stackName = process.env.BAKEHOUSE_STACK_NAME
+const account = process.env.CDK_DEFAULT_ACCOUNT
 
 if (!stackName || !stackName.trim()) {
   console.error('Environment variable BAKEHOUSE_STACK_NAME is not set')
   process.exit(1)
 }
 
+if (!account) {
+  throw new Error("CDK_DEFAULT_ACCOUNT is not set");
+}
+
 const settings = {
   env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT || 'NOT_SET',
+    account,
     region: process.env.CDK_DEFAULT_REGION || 'eu-west-2'
   },
   stackName: stackName,
