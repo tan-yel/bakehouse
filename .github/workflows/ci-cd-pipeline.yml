@@ -95,6 +95,7 @@ jobs:
             pwd
             ls -l
             cd bakehouse-app
+            ls -l
             ./install.sh
 
   test:
