@@ -217,10 +217,13 @@ export class BakehouseStack extends Stack {
     // ----------------------------------
     // Certificate
     // ----------------------------------
+
+    const certArn = cdk.Fn.importValue('CTASharedCertArn')
+
     const cert = acm.Certificate.fromCertificateArn(
       this,
       'BakehouseCert',
-      props.certArn
+      certArn
     )
 
     const provider = iam.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
