@@ -90,12 +90,15 @@ jobs:
             ROLE_SESSION=$(echo "${IDENTITY}" | jq -r '.Arn' | grep -oP '(?<=/)[^/]+$')
             echo "Current session: ${ROLE_SESSION}"
 
+      - name: Change permission on build script
+        run: |
+            cd bakehouse-app/client
+            git update-index --chmod=+x ./build.sh
+
       - name: Run install script
         run: |
-            pwd
-            ls -l
             cd bakehouse-app
-            ls -l
+            git update-index --chmod=+x ./install.sh
             ./install.sh
 
   test:
