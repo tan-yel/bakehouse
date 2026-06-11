@@ -102,15 +102,11 @@ jobs:
           echo "CDK_DEFAULT_ACCOUNT=$ACCOUNT" >> $GITHUB_ENV
           echo "CDK_DEFAULT_REGION=eu-west-2" >> $GITHUB_ENV
 
-      - name: synth
+      - name: synth and deploy
         run: |
             cd bakehouse-app
-            npx cdk synth --no-lookups
-
-      - name: deploy
-        run: |
-            cd bakehouse-app
-            npx cdk deploy --profile student --verbose
+            npx cdk synth 
+            npx cdk deploy --verbose
 
   test:
     runs-on: ubuntu-latest
