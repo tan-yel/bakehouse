@@ -101,6 +101,9 @@ jobs:
     name: Unit testing
     needs: build
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: run 
         run: |
           echo 'cd command'
@@ -124,6 +127,9 @@ jobs:
     name: Synth and Deploy
     needs: build
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: synth
         run: |
             cd bakehouse-app
