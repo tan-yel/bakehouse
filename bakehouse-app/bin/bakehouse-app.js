@@ -15,7 +15,7 @@ const settings = {
     region: process.env.CDK_DEFAULT_REGION || 'eu-west-2'
   },
   stackName: stackName,
-   // SSL cert for HTTPS
+  certArn: cdk.Fn.importValue('CTASharedCertArn'), // SSL cert for HTTPS
   permissionsBoundaryPolicyName: 'scopePermissions',
   domainName: 'cta-training.academy', // Root domain
   subDomain: stackName.toLowerCase(),
@@ -32,6 +32,7 @@ new BakehouseStack(app,`${settings.stackName}-stack`,{
   permissionsBoundaryPolicyName: settings.permissionsBoundaryPolicyName,
   subDomain: settings.subDomain,
   stackName: settings.stackName,
+  certArn: settings.certArn,
   domainName: settings.domainName,
   dbName: settings.dbName,
   vpcName: settings.vpcName,

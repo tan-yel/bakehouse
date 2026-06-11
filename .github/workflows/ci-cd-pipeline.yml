@@ -96,10 +96,16 @@ jobs:
           ./install.sh
           echo '✅'
 
+      - name: Set CDK environment
+        run: |
+          ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+          echo "CDK_DEFAULT_ACCOUNT=$ACCOUNT" >> $GITHUB_ENV
+          echo "CDK_DEFAULT_REGION=eu-west-2" >> $GITHUB_ENV
+
       - name: synth
         run: |
             cd bakehouse-app
-            npx cdk synth
+            npx cdk synth --no-lookups
 
       - name: deploy
         run: |
