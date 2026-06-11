@@ -94,6 +94,7 @@ jobs:
         run: |
           cd bakehouse-app
           ./install.sh
+          echo '✅'
 
   test:
     runs-on: ubuntu-latest
@@ -102,12 +103,15 @@ jobs:
     steps:
       - name: run 
         run: |
-          ls -l
-          pwd
+          echo 'cd command'
           cd bakehouse-app/
+          echo 'pwd'
           pwd
+          echo 'ls'
           ls
+          echo 'cd test'
           cd test/
+          
           pwd
           ls
           cd unit-testing/
