@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Environment setup & Deployment
+    name: Environment Setup & Deployment
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -99,12 +99,12 @@ jobs:
       - name: synth
         run: |
             cd bakehouse-app
-            npx cdk synth --verbose
+            npx cdk synth
 
       - name: deploy
         run: |
             cd bakehouse-app
-            npx cdk deploy --verbose
+            npx cdk deploy --profile student --verbose
 
   test:
     runs-on: ubuntu-latest
@@ -123,6 +123,5 @@ jobs:
         run: |
           cd bakehouse-app/test/unit-testing
           pwd
-          npm install
           npm test unit-testing
 
