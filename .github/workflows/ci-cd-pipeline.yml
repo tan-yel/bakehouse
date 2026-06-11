@@ -106,7 +106,7 @@ jobs:
         run: |
             cd bakehouse-app
             npx cdk synth 
-            npx cdk deploy --verbose
+            npx cdk deploy --profile student
 
   test:
     runs-on: ubuntu-latest
