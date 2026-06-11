@@ -5,7 +5,7 @@ import { join } from 'path'
 import * as ec2 from 'aws-cdk-lib/aws-ec2'
 import * as rds from 'aws-cdk-lib/aws-rds'
 import * as cdk from 'aws-cdk-lib'
-import { Stack } from 'aws-cdk-lib'
+import { Stack, Duration } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as s3 from 'aws-cdk-lib/aws-s3'
@@ -228,6 +228,24 @@ export class BakehouseStack extends Stack {
       'GitHubOIDCProvider',
       `arn:aws:iam::${this.account}:oidc-provider/token.actions.githubusercontent.com`
     );
+
+    const role = new iam.Role(this, "GitHubActionsRole", {
+      roleName: `github-actions-${yourName}-${githubRepo}`, // 👈 yourName added here
+      assumedBy: new iam.WebIdentityPrincipal(
+        provider.openIdConnectProviderArn,
+        {
+          StringEquals: {
+            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+          },
+          StringLike: {
+            "token.actions.githubusercontent.com:sub":
+              `repo:${githubOrg}/${githubRepo}:${githubRefFilter}`,
+          },
+        }
+      ),
+      description: `Assumed by GitHub Actions for ${githubOrg}/${githubRepo}`,
+      maxSessionDuration: Duration.hours(1),
+    });
     // ----------------------------------
     // CloudFront function
     // ----------------------------------
@@ -584,6 +602,10 @@ export class BakehouseStack extends Stack {
 
     new cdk.CfnOutput(this, 'LoginLambdaName', {
       value: loginLambda.functionName,
+    })
+
+    new cdk.CfnOutput(this, 'GitHubActionsRoleArn', {
+      value: role.roleArn,
     })
   }
 }

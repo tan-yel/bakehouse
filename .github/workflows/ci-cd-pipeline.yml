@@ -67,4 +67,54 @@ jobs:
                 echo "❌ Session name too long!"
                 exit 1
             fi
-  
+
+      - name: Configure AWS credentials via OIDC
+        # ENHANCED: Session name includes student identifier and retry attempt
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+            # Session name now includes:
+            # gha-cdk-{student}-{run_id}-{attempt}
+            # Example: gha-cdk-alice-1234567890-1
+            role-session-name: ${{ needs.setup.outputs.session-name }}
+            aws-region: ${{ env.AWS_REGION }}
+
+      - name: Verify OIDC credentials
+        run: |
+            echo "Verifying AWS credentials..."
+            IDENTITY=$(aws sts get-caller-identity)
+            echo "Assumed role:"
+            echo "${IDENTITY}" | jq '.'
+
+            # Extract role session name from assumed identity
+            ROLE_SESSION=$(echo "${IDENTITY}" | jq -r '.Arn' | grep -oP '(?<=/)[^/]+$')
+            echo "Current session: ${ROLE_SESSION}"
+
+      - name: Run install script
+        run: |
+            cd /bakehouse-app
+            ./install.sh
+
+  test:
+    runs-on: ubuntu-latest
+    name: Unit testing
+    steps:
+      - name: run 
+        run: |
+            cd /bakehouse-app/test/unit-testing
+            npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Synth and Deploy
+    needs: build
+    steps:
+      - name: synth
+        run: |
+            cd /bakehouse-app
+            npx cdk synth
+
+      - name: deploy
+        run: |
+            cd /bakehouse-app
+            npx cdk deploy
