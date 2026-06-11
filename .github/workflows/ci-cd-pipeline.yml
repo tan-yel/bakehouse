@@ -90,6 +90,12 @@ jobs:
           ROLE_SESSION=$(echo "${IDENTITY}" | jq -r '.Arn' | grep -oP '(?<=/)[^/]+$')
           echo "Current session: ${ROLE_SESSION}"
 
+      - name: Run install script
+        run: |
+          cd bakehouse-app
+          ./install.sh
+          echo '✅'
+
       - name: synth
         run: |
             cd bakehouse-app
