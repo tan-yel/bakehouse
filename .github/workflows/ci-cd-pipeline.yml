@@ -104,6 +104,7 @@ jobs:
       - name: run 
         run: |
           echo 'cd command'
+          ls -l
           cd bakehouse-app/
           echo 'pwd'
           pwd
@@ -111,7 +112,7 @@ jobs:
           ls
           echo 'cd test'
           cd test/
-          
+
           pwd
           ls
           cd unit-testing/
