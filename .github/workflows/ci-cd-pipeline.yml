@@ -102,6 +102,7 @@ jobs:
     steps:
       - name: run 
         run: |
+          ls -l
           pwd
           cd bakehouse-app/
           pwd
