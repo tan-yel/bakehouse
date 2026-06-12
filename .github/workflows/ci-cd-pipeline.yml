@@ -134,13 +134,17 @@ jobs:
           ./install.sh
           echo '✅'
 
-      - name: playwright testing
-        continue-on-error: true
-        run: |
+          
+          - name: playwright testing
+          continue-on-error: true
+          run: |
           cd bakehouse-app/test/playwright
-          npm i -D @playwright/test
+          npm ci
           npx playwright install 
           npx playwright test
+          
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
 
       - name: k6 testing
         run: |
