@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { group, check, sleep } from 'k6';
 
-const BASE_URL = 'https://bakehouse.cta-training.academy/';
+const BASE_URL = 'https://tanyel-kemal-bakehouse.cta-training.academy/';
 
 export const options = {
     scenarios: {

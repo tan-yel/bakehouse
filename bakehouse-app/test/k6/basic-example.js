@@ -7,6 +7,6 @@ export const options = {
 };
 
 export default function () {
-  let res = http.get('https://bakehouse.cta-training.academy/api/products');
+  let res = http.get('https://tanyel-kemal-bakehouse.cta-training.academy/api/products');
   sleep(5);
 }

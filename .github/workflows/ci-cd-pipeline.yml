@@ -145,7 +145,8 @@ jobs:
       - name: k6 testing
         run: |
           cd bakehouse-app/test/k6
-          npm test k6
+          k6 run basic-example.js
+          k6 run scenario-example.js
 
 
 

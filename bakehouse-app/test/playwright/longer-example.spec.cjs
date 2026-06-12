@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 test.describe('Bakehouse website tests', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://tanyel-kemal-bakehouse.cta-training.academy');
+        await page.goto('https://tanyel-kemal-bakehouse.cta-training.academy/');
     });
 
     test('homepage loads and key content is visible', async ({ page }) => {
