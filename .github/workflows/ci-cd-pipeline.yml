@@ -138,7 +138,7 @@ jobs:
         run: |
           cd bakehouse-app/test/playwright
           npm init playwright@latest
-          npx playright test
+          npx playwright test
 
       - name: k6 testing
         run: |
