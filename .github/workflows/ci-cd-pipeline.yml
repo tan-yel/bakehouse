@@ -137,6 +137,7 @@ jobs:
       - name: playwright testing
         run: |
           cd bakehouse-app/test/playwright
+          npx playwright install 
           npx playwright test
 
       - name: k6 testing
