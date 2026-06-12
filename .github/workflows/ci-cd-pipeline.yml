@@ -68,16 +68,11 @@ jobs:
                 exit 1
             fi
         
-      - name: Configure AWS credentials via OIDC
-        # ENHANCED: Session name includes student identifier and retry attempt
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-            role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-            # Session name now includes:
-            # gha-cdk-{student}-{run_id}-{attempt}
-            # Example: gha-cdk-alice-1234567890-1
-            role-session-name: ${{ steps.session-naming.outputs.session-name }}
-            aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Verify OIDC credentials
         run: |
