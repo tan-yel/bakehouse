@@ -223,29 +223,37 @@ export class BakehouseStack extends Stack {
       props.certArn
     )
 
-    const provider = iam.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
+    // ----------------------------------
+    // GitHub Actions OIDC deploy role
+    // ----------------------------------
+    const githubOrg = props.githubOrg || 'tan-yel'
+    const githubRepo = props.githubRepo || 'bakehouse'
+    const githubRefFilter = props.githubRefFilter || 'ref:refs/heads/main'
+    const githubOidcProvider = iam.OpenIdConnectProvider.fromOpenIdConnectProviderArn(
       this,
-      'GitHubOIDCProvider',
+      'github-oidc-provider',
       `arn:aws:iam::${this.account}:oidc-provider/token.actions.githubusercontent.com`
-    );
-
-    const role = new iam.Role(this, "GitHubActionsRole", {
-      roleName: `github-actions-${yourName}-${githubRepo}`, // 👈 yourName added here
+    )
+    const githubActionsDeployRole = new iam.Role(this, 'github-actions-deploy-role', {
+      roleName: 'github-actions-tanyel-kemal-bakehouse',
       assumedBy: new iam.WebIdentityPrincipal(
-        provider.openIdConnectProviderArn,
+        githubOidcProvider.openIdConnectProviderArn,
         {
           StringEquals: {
-            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+            'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com'
           },
           StringLike: {
-            "token.actions.githubusercontent.com:sub":
-              `repo:${githubOrg}/${githubRepo}:${githubRefFilter}`,
-          },
+            'token.actions.githubusercontent.com:sub': `repo:${githubOrg}/${githubRepo}:${githubRefFilter}`
+          }
         }
       ),
       description: `Assumed by GitHub Actions for ${githubOrg}/${githubRepo}`,
-      maxSessionDuration: Duration.hours(1),
-    });
+      maxSessionDuration: cdk.Duration.hours(1)
+    })
+    githubActionsDeployRole.addManagedPolicy(
+      iam.ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess')
+    )
+  
     // ----------------------------------
     // CloudFront function
     // ----------------------------------
@@ -602,10 +610,6 @@ export class BakehouseStack extends Stack {
 
     new cdk.CfnOutput(this, 'LoginLambdaName', {
       value: loginLambda.functionName,
-    })
-
-    new cdk.CfnOutput(this, 'GitHubActionsRoleArn', {
-      value: role.roleArn,
     })
   }
 }
