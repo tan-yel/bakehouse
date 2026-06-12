@@ -92,24 +92,19 @@ jobs:
           ./install.sh
           echo '✅'
 
-      - name: synth
+      - name: Synth
         run: |
           cd bakehouse-app
           npx cdk synth
 
-      - name: debug and deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}
-          AWS_REGION: eu-west-2
+      - name: Deploy
         run: |
           cd bakehouse-app
           npx cdk deploy --verbose
 
   test:
     runs-on: ubuntu-latest
-    name: Unit testing
+    name: Unit Testing
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -123,6 +118,25 @@ jobs:
       - name: run unit test
         run: |
           cd bakehouse-app/test/unit-testing
-          pwd
           npm test unit-testing
+
+  perf:
+    runs-on: ubuntu-latest
+    name: Playwright & K6
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: playwright testing
+        run: |
+          cd bakehouse-app/test/playwright
+          npm test playwright
+
+      - name: k6 testing
+        run: |
+          cd bakehouse-app/test/k6
+          npm test k6
+
+
 
