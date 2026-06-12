@@ -611,5 +611,10 @@ export class BakehouseStack extends Stack {
     new cdk.CfnOutput(this, 'LoginLambdaName', {
       value: loginLambda.functionName,
     })
+    
+    new cdk.CfnOutput(this, 'GitHubActionsRoleArn', {
+      value: githubActionsDeployRole.roleArn,
+      description: 'Set this as the GitHub Actions secret AWS_ROLE_ARN'
+    })
   }
 }

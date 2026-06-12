@@ -1,49 +1,4 @@
 #!/usr/bin/env node
-// import { BakehouseStack } from '../lib/bakehouse-stack.js';
-// import * as cdk from 'aws-cdk-lib';
-
-// const stackName = process.env.BAKEHOUSE_STACK_NAME
-// const account = process.env.CDK_DEFAULT_ACCOUNT
-
-// if (!stackName || !stackName.trim()) {
-//   console.error('Environment variable BAKEHOUSE_STACK_NAME is not set')
-//   process.exit(1)
-// }
-
-// if (!account) {
-//   throw new Error("CDK_DEFAULT_ACCOUNT is not set");
-// }
-
-// const settings = {
-//   env: {
-//     account,
-//     region: process.env.CDK_DEFAULT_REGION || 'eu-west-2'
-//   },
-//   stackName: stackName,
-//   certArn: cdk.Fn.importValue('CTASharedCertArn'), // SSL cert for HTTPS
-//   permissionsBoundaryPolicyName: 'scopePermissions',
-//   domainName: 'cta-training.academy', // Root domain
-//   subDomain: stackName.toLowerCase(),
-//   dbName: 'dev',
-//   vpcName: 'CTASharedVPC-vpc',
-//   sharedOriginRequestPolicyId: '6d7a8520-10b9-4b88-ae47-770229103b35'
-// }
-
-// const app = new cdk.App();
-
-
-// new BakehouseStack(app,`${settings.stackName}-stack`,{
-//   env: settings.env,
-//   permissionsBoundaryPolicyName: settings.permissionsBoundaryPolicyName,
-//   subDomain: settings.subDomain,
-//   stackName: settings.stackName,
-//   certArn: settings.certArn,
-//   domainName: settings.domainName,
-//   dbName: settings.dbName,
-//   vpcName: settings.vpcName,
-//   sharedOriginRequestPolicyId: settings.sharedOriginRequestPolicyId
-// });
-
 
 import { BakehouseStack } from '../lib/bakehouse-stack.js';
 import * as cdk from 'aws-cdk-lib';
