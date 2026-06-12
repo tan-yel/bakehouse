@@ -128,6 +128,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Run install script
+        run: |
+          cd bakehouse-app
+          ./install.sh
+          echo '✅'
+
       - name: playwright testing
         run: |
           cd bakehouse-app/test/playwright
