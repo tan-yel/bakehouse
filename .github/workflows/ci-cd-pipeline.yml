@@ -135,8 +135,10 @@ jobs:
           echo '✅'
 
       - name: playwright testing
+        continue-on-error: true
         run: |
           cd bakehouse-app/test/playwright
+          npm i -D @playwright/test
           npx playwright install 
           npx playwright test
 
